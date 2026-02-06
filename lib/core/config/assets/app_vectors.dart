@@ -3,4 +3,6 @@ class AppVectors {
   static const String format = '.svg';
 
   static const String logo = '${basePath}spotifyIcon$format';
+
+  static const String topPattern = '${basePath}Union$format';
 }
