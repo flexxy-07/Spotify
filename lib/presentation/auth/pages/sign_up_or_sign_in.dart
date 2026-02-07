@@ -5,6 +5,7 @@ import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import 'package:spotify/core/config/assets/app_images.dart';
 import 'package:spotify/core/config/assets/app_vectors.dart';
+import 'package:spotify/presentation/auth/pages/sign_in.dart';
 import 'package:spotify/presentation/auth/pages/sign_up.dart';
 
 class SignUpOrSignIn extends StatelessWidget {
@@ -75,6 +76,7 @@ class SignUpOrSignIn extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             // Navigate to Sign In page
+                            Navigator.push(context, MaterialPageRoute(builder:(context) => SignInPage(),));
                             
                           },
                           child: const Text(
