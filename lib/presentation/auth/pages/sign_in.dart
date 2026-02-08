@@ -27,7 +27,9 @@ class SignInPage extends StatelessWidget {
               _recoverPasswordText(context),
 
               const SizedBox(height: 34),
-              BasicAppButton(onPressed: () {}, label: 'Sign In'),
+              BasicAppButton(onPressed: () {
+                
+              }, label: 'Sign In'),
             ],
           ),
         ),
