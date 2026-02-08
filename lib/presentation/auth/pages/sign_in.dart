@@ -1,10 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
+import 'package:spotify/data/models/auth/signin_user_req.dart';
+import 'package:spotify/domain/usecases/auth/signin.dart';
 import 'package:spotify/presentation/auth/pages/sign_up.dart';
+import 'package:spotify/presentation/root/pages/root.dart';
+import 'package:spotify/service_locator.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  late TextEditingController _email;
+  late TextEditingController _password;
+  bool _isLoading = false;
+
+
+  @override
+  void initState(){
+    super.initState();
+    _email = TextEditingController();
+    _password = TextEditingController(); 
+  }
+
+  @override 
+  void dispose(){
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
+  void _clearFields(){
+    _email.clear();
+    _password.clear();
+  }
+
+  Future<void> _handleSignIn() async {
+    if(!mounted) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      var result = await sl<SigninUseCase>().call(
+        params: SignInUserReq(email: _email.text.toString(), password: _password.text.toString())
+      );
+
+      if(!mounted) return;
+
+      result.fold((left){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(left.toString()),));
+        setState(() {
+          _isLoading = false;
+        });
+      }, (right){
+        _clearFields();
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const RootPage()), (route) => false);
+      });
+    }catch(e){
+      if(!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('An unexpected error occurred: ${e.toString()}'),));
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +95,10 @@ class SignInPage extends StatelessWidget {
               _recoverPasswordText(context),
 
               const SizedBox(height: 34),
-              BasicAppButton(onPressed: () {
-                
-              }, label: 'Sign In'),
+               BasicAppButton(
+                onPressed: _isLoading ? null : _handleSignIn,
+                label: _isLoading ? 'Signing In...' : 'Sign In',
+              ),
             ],
           ),
         ),
@@ -47,6 +116,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _fullNameField(BuildContext context) {
     return TextField(
+      controller: _email,
       decoration: const InputDecoration(
         hintText: 'Enter Username or Email...',
       ).applyDefaults(Theme.of(context).inputDecorationTheme),
@@ -55,6 +125,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _passwordField(BuildContext context) {
     return TextField(
+      controller: _password,
       decoration: InputDecoration(
         hintText: 'Password...',
       ).applyDefaults(Theme.of(context).inputDecorationTheme),
