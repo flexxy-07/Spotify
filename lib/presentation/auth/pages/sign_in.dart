@@ -23,6 +23,7 @@ class SignInPage extends StatelessWidget {
 
               const SizedBox(height: 16),
               _passwordField(context),
+              
               _recoverPasswordText(context),
 
               const SizedBox(height: 34),
