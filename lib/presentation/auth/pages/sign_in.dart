@@ -96,7 +96,7 @@ class _SignInPageState extends State<SignInPage> {
 
               const SizedBox(height: 34),
                BasicAppButton(
-                onPressed: _isLoading ? null : _handleSignIn,
+                onPressed: _isLoading ? null : () => _handleSignIn(),
                 label: _isLoading ? 'Signing In...' : 'Sign In',
               ),
             ],

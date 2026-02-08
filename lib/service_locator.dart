@@ -8,10 +8,28 @@ import 'package:spotify/domain/usecases/auth/signup.dart';
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-  sl.registerSingleton<AuthFirebaseService>(AuthFirebaseServiceImpl());
-  sl.registerSingleton<AuthRepository>(AuthRepositoryImplementation());
+  // Register services first
+  sl.registerSingleton<AuthFirebaseService>(
+    AuthFirebaseServiceImpl()
+  );
 
-  sl.registerSingleton<SignupUseCase>(SignupUseCase());
+  // Register repositories with their dependencies
+  sl.registerSingleton<AuthRepository>(
+    AuthRepositoryImplementation(
+      authFirebaseService: sl<AuthFirebaseService>()
+    )
+  );
 
-  sl.registerSingleton<SigninUseCase>(SigninUseCase());
+  // Register use cases with their dependencies
+  sl.registerSingleton<SignupUseCase>(
+    SignupUseCase(
+      authRepository: sl<AuthRepository>()
+    )
+  );
+
+  sl.registerSingleton<SigninUseCase>(
+    SigninUseCase(
+      authRepository: sl<AuthRepository>()
+    )
+  );
 }

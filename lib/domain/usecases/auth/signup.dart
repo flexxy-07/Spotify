@@ -5,10 +5,14 @@ import 'package:spotify/domain/repository/auth/auth.dart';
 import 'package:spotify/service_locator.dart';
 
 class SignupUseCase implements UseCase<Either,CreateUserReq> {
+  final AuthRepository _authRepository;
+
+  SignupUseCase({AuthRepository? authRepository}) 
+    : _authRepository = authRepository ?? sl<AuthRepository>();
+
   @override
   Future<Either<dynamic, dynamic>> call({CreateUserReq ?params}) {
-    
-    return sl<AuthRepository>().signUp(params!);
+    return _authRepository.signUp(params!);
   }
 
 }
