@@ -5,8 +5,9 @@ import 'package:spotify/core/config/assets/app_vectors.dart';
 
 class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showLogo;
+  final bool showBackButton;
   
-  const BasicAppBar({this.showLogo = false});
+  const BasicAppBar({this.showLogo = false, this.showBackButton = false});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       title: showLogo ? SvgPicture.asset(AppVectors.logo, height: 40,) : null,
       centerTitle: true,
-      leading: IconButton(onPressed: (){
+      leading: showBackButton ? IconButton(onPressed: (){
         Navigator.pop(context);
       }, icon: 
       Container(
@@ -30,7 +31,7 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
           size: 15,
           color: context.isDarkMode ? Colors.white : Colors.black,
         ),
-      ))
+      )) : null,
     );
   }
 

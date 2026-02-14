@@ -4,7 +4,7 @@ import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import 'package:spotify/data/models/auth/signin_user_req.dart';
 import 'package:spotify/domain/usecases/auth/signin.dart';
 import 'package:spotify/presentation/auth/pages/sign_up.dart';
-import 'package:spotify/presentation/root/pages/root.dart';
+import 'package:spotify/presentation/home/pages/home.dart';
 import 'package:spotify/service_locator.dart';
 
 class SignInPage extends StatefulWidget {
@@ -63,7 +63,8 @@ class _SignInPageState extends State<SignInPage> {
         setState(() {
           _isLoading = false;
         });
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const RootPage()), (route) => false);
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const HomePage
+        ()), (route) => false);
       });
     }catch(e){
       if(!mounted) return;

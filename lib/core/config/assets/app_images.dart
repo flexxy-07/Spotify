@@ -8,4 +8,8 @@ class AppImages {
   static const String bottomRightAuthPattern = '${basePath}Union2.png';
 
   static const String authBG = '${basePath}billi_eilish.png';
+
+  static const String homePageTopArtist = '${basePath}Home_artist_on_top.png';
+  
+
 }
